@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="HandheldFriendly" content="true"/> 
+    <meta name="description" content="Generate customized QR codes for URLs, social media profiles, Wi-Fi access, events, and more with our easy-to-use QR Code Generator. Perfect for personal and business use, create QR codes in various sizes with optional images and additional data.">
+    <title>QR Code Generator</title>
+    <link rel="preload" href="/qrcode/static/w3.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="/qrcode/static/w3.css">
+    </noscript>
+    <link rel="icon" href="/qrcode/static/favicon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --sidebar-width: 200px;
+            --sidebar-collapsed-width: 80px;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: linear-gradient(to right, #d7e1ec, #ffffff); /* Blu chiaro tendente al bianco */
+        }
+        .w3-sidebar {
+            width: var(--sidebar-width);
+            transition: width 0.3s;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            padding-top: 20px;
+            box-sizing: border-box;
+            background: linear-gradient(to bottom, #6200ff, #888);
+        }
+        .w3-sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+        .w3-main {
+            padding: 0;
+            position: relative;
+            box-sizing: border-box;
+                        transition: margin-left 0.3s;
+        }
+        .w3-section {
+            position: absolute;
+            left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 20px;
+            box-sizing: border-box;
+            transition: left 0.3s, width 0.3s;
+        }
+        .w3-sidebar.collapsed + .w3-main .w3-section {
+            left: var(--sidebar-collapsed-width);
+            width: calc(100% - var(--sidebar-collapsed-width));
+        }
+        .w3-hide {
+            display: none;
+        }
+        .logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .qr-code-img {
+            margin-top: 20px;
+            display: none;
+        }
+        .menu-button {
+            background-color: transparent !important;
+            border: 1px solid transparent;
+            color: white;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .menu-button:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .light-blue {
+            background: linear-gradient(to right, #d7e1ec, #ffffff); /* Blu chiaro tendente al bianco */
+        }
+        .light-teal {
+            background: linear-gradient(to right, #d0f0e0, #ffffff); /* Verde chiaro tendente al bianco */
+        }
+        .light-indigo {
+            background: linear-gradient(to right, #d0d0f0, #ffffff); /* Indaco chiaro tendente al bianco */
+        }
+        .light-black {
+            background: linear-gradient(to right, #d0d0d0, #ffffff); /* Grigio chiaro tendente al bianco */
+        }
+        .light-red {
+            background: linear-gradient(to right, #f0d0d0, #ffffff); /* Rosso chiaro tendente al bianco */
+        }
+        .light-green {
+            background: linear-gradient(to right, #d0f0d0, #ffffff); /* Verde chiaro tendente al bianco */
+        }
+        .light-purple {
+            background: linear-gradient(to right, #f0d0f0, #ffffff); /* Viola chiaro tendente al bianco */
+        }
+        .light-orange {
+            background: linear-gradient(to right, #f0e0d0, #ffffff); /* Arancione chiaro tendente al bianco */
+        }
+        .light-blue-dark {
+            background: linear-gradient(to right, #d0e0f0, #ffffff); /* Blu scuro chiaro tendente al bianco */
+        }
+        .light-yellow {
+            background: linear-gradient(to right, #f0f0d0, #ffffff); /* Giallo chiaro tendente al bianco */
+        }
+        .light-pink {
+            background: linear-gradient(to right, #f0d0d8, #ffffff); /* Rosa chiaro tendente al bianco */
+        }
+        .light-aqua {
+            background: linear-gradient(to right, #d0f0f0, #ffffff); /* Aqua chiaro tendente al bianco */
+        }
+        .light-gray {
+            background: linear-gradient(to right, #e0e0e0, #ffffff); /* Grigio chiaro tendente al bianco */
+        }
+
+
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .center-content form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .center-content label,
+        .center-content input,
+        .center-content select,
+        .center-content textarea,
+        .center-content button {
+            width: 50%;
+            margin-bottom: 10px;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+        }
+        .menu-item span {
+            display: inline-block;
+            transition: opacity 0.3s, width 0.3s;
+        }
+        .w3-sidebar.collapsed .menu-item span {
+            opacity: 0;
+            width: 0;
+        }
+.expand-button {
+    position: sticky; /* Fixed position */
+    top: 20px; /* Adjust as necessary */
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #6b8cff, #00eaff); /* Gradient background */
+    color: white;
+    font-weight: bold;
+    border: 2px solid #007BFF;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 25px; /* More rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow */
+    transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+    font-family: 'Arial', sans-serif; /* Custom font */
+    font-size: 12px; /* Smaller font size */
+    z-index: 1000; /* Ensure it's on top */
+}
+
+.expand-button:hover {
+    background: linear-gradient(135deg, #00eaff, #6b8cff); /* Inverse gradient on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Larger shadow on hover */
+}
+
+.expand-button:active {
+    transform: translateX(-50%) scale(0.98); /* Slightly scale down on active */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Smaller shadow on active */
+}
+
+        .w3-sidebar.collapsed .expand-button {
+            display: block;
+        }
+.w3-sidebar:not(.collapsed) .expand-button {
+    display: none;
+}
+    </style>
+</head>
+<body class="w3-light-grey">
+    <div class="w3-sidebar w3-bar-block w3-dark-grey w3-card">
+        <h3 class="w3-bar-item">QR Code Generator</h3>
+        <button class="expand-button" onclick="toggleSidebar()">Expand</button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('customUrlSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/custom_url_logo.webp" class="logo" alt="Custom URL Logo">
+                <span>Custom URL/Text</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('instagramSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/instagram_logo.webp" class="logo" alt="Instagram Logo">
+                <span>Instagram</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('facebookSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/facebook_logo.webp" class="logo" alt="Facebook Logo">
+                <span>Facebook</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('tiktokSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/tiktok_logo.webp" class="logo" alt="TikTok Logo">
+                <span>TikTok</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('xSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/x_logo.webp" class="logo" alt="X Logo">
+                <span>X / Twitter</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('linkedinSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/linkedin_logo.webp" class="logo" alt="LinkedIn Logo">
+                <span>LinkedIn</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('youtubeSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/youtube_logo.webp" class="logo" alt="YouTube Logo">
+                <span>YouTube</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('vcardSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/vcard_logo.webp" class="logo" alt="vCard Logo">
+                <span>vCard</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('wifiSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/wifi_logo.webp" class="logo" alt="Wi-Fi Logo" loading="lazy">
+                <span>Wi-Fi</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('mapSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/map_logo.webp" class="logo" alt="Map Logo" loading="lazy">
+                <span>Map</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('eventSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/event_logo.webp" class="logo" alt="Event Logo" loading="lazy">
+                <span>Event</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('paypalSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/paypal_logo.webp" class="logo" alt="PayPal Logo" loading="lazy">
+                <span>PayPal</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('whatsappSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/whatsapp_logo.webp" class="logo" alt="WhatsApp Logo" loading="lazy">
+                <span>WhatsApp Message</span>
+            </div>
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('emailSection')">
+            <img src="/qrcode/static/email_logo.webp" class="logo" alt="Email Logo" loading="lazy"> Email
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('smsSection')">
+            <img src="/qrcode/static/sms_logo.webp" class="logo" alt="SMS Logo" loading="lazy"> SMS
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('phoneSection')">
+            <img src="/qrcode/static/phone_logo.webp" class="logo" alt="Phone Logo" loading="lazy"> Phone
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('spotifySection')">
+            <img src="/qrcode/static/spotify_logo.webp" class="logo" alt="Spotify Logo" loading="lazy"> Spotify
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('telegramSection')">
+            <img src="/qrcode/static/telegram_logo.webp" class="logo" alt="Telegram Logo" loading="lazy"> Telegram
+        </button>
+        <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('zoomSection')">
+            <div class="menu-item">
+                <img src="/qrcode/static/zoom_logo.webp" class="logo" alt="Zoom Logo">
+                <span>Zoom</span>
+            </div>
+        </button>
+
+    </div>
+
+    <div class="w3-main w3-padding">
+        <div id="defaultSection" class="w3-section w3-container w3-card-4 w3-white w3-margin-bottom light-gray center-content">
+            <h1 class="w3-section-title w3-grey w3-padding-16 w3-round-xxlarge">
+                Welcome to the QR Code Generator!
+            </h1>
+            <p>Select a section from the sidebar to start generating your QR codes.</p>
+        </div>
+
+        <div id="customUrlSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-teal center-content">
+            <h2 class="w3-section-title w3-teal w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/custom_url_logo.webp" class="logo" alt="Custom URL Logo" style="margin-left: 20px;"> Generate QR Code with Custom URL or Text
+            </h2>
+            <form id="qrForm">
+                <label for="url">URL/Text:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="urlcustomurl" name="url" required>
+                <br>
+                <label for="image">Image (optional):</label>
+                <input class="w3-input w3-border w3-round-large" type="file" id="image" name="image" accept="image/jpeg, image/png, image/bmp">
+                <br>
+                <label for="logoWidthPercent">Logo Width Percent:</label>
+                <input class="w3-input w3-border w3-round-large w3-teal" type="range" id="logoWidthPercent" name="logoWidthPercent" min="0" max="1" step="0.01" value="0.25" oninput="updateLogoWidthValue(this.value)">
+                <span id="logoWidthValue" class="w3-tag w3-teal">25%</span>
+                <br>
+                <label for="size">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizecustomurl" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-teal w3-round-large" type="submit">Generate QR Code</button>
+            </form>
+            <img id="customUrlQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+        <div id="instagramSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-blue-dark center-content">
+            <h2 class="w3-section-title w3-blue w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/instagram_logo.webp" class="logo" alt="Instagram Logo" style="margin-left: 20px;"> Generate Instagram QR Code
+            </h2>
+            <form id="instagramQrForm">
+                <label for="username">Instagram Username:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="username" name="username" autocomplete="username" required>
+                <br>
+                <label for="sizeInstagram">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizeInstagram" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-blue w3-round-large" type="submit">Generate Instagram QR Code</button>
+            </form>
+            <img id="instagramQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+        <div id="facebookSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-indigo center-content">
+            <h2 class="w3-section-title w3-indigo w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/facebook_logo.webp" class="logo" alt="Facebook Logo"  style="margin-left: 20px;"> Generate Facebook QR Code
+            </h2>
+            <form id="facebookQrForm">
+                <label for="usernameFacebook">Facebook Username:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="usernameFacebook" name="username" autocomplete="username" required>
+                <br>
+                <label for="sizeFacebook">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizeFacebook" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-indigo w3-round-large" type="submit">Generate Facebook QR Code</button>
+            </form>
+            <img id="facebookQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+        <div id="tiktokSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-black center-content">
+            <h2 class="w3-section-title w3-black w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/tiktok_logo.webp" class="logo" alt="TikTok Logo"  style="margin-left: 20px;"> Generate TikTok QR Code
+            </h2>
+            <form id="tiktokQrForm">
+                <label for="usernameTikTok">TikTok Username:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="usernameTikTok" name="username" autocomplete="username" required>
+                <br>
+                <label for="sizeTikTok">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizeTikTok" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-black w3-round-large" type="submit">Generate TikTok QR Code</button>
+            </form>
+            <img id="tiktokQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+        <div id="xSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-gray center-content">
+            <h2 class="w3-section-title w3-grey w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/x_logo.webp" class="logo" alt="X Logo" style="margin-left: 20px;"> Generate X / Twitter QR Code
+            </h2>
+            <form id="xQrForm">
+                <label for="usernameX">Username:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="usernameX" name="username" autocomplete="username" required>
+                <br>
+                <label for="sizeX">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizeX" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-grey w3-round-large" type="submit">Generate QR Code</button>
+            </form>
+            <img id="xQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+        <div id="linkedinSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-blue-dark center-content">
+            <h2 class="w3-section-title w3-blue w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/linkedin_logo.webp" class="logo" alt="LinkedIn Logo"  style="margin-left: 20px;"> Generate LinkedIn QR Code
+            </h2>
+            <form id="linkedinQrForm">
+                <label for="usernameLinkedIn">LinkedIn Username:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="usernameLinkedIn" name="username" autocomplete="username" required>
+                <br>
+                <label for="sizeLinkedIn">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizeLinkedIn" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-blue w3-round-large" type="submit">Generate LinkedIn QR Code</button>
+            </form>
+            <img id="linkedinQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+        <div id="youtubeSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-red center-content">
+            <h2 class="w3-section-title w3-red w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/youtube_logo.webp" class="logo" alt="YouTube Logo"  style="margin-left: 20px;"> Generate YouTube QR Code
+            </h2>
+            <form id="youtubeQrForm">
+                <label for="channelYouTube">YouTube Channel ID:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="channelYouTube" name="channel" required>
+                <br>
+                <label for="sizeYouTube">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizeYouTube" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-red w3-round-large" type="submit">Generate YouTube QR Code</button>
+            </form>
+            <img id="youtubeQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+        <div id="vcardSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-green center-content">
+            <h2 class="w3-section-title w3-green w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/vcard_logo.webp" class="logo" alt="vCard Logo"  style="margin-left: 20px;"> Generate vCard QR Code
+            </h2>
+            <form id="vcardQrForm" enctype="multipart/form-data">
+                <label for="firstName">First Name:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="firstName" name="firstName" required>
+                <br>
+                <label for="lastName">Last Name:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="lastName" name="lastName" required>
+                <br>
+                <label for="title">Title:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="title" name="title" required>
+                <br>
+                <label for="phone">Phone:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="phonevcard" name="phone" autocomplete="phone" required>
+                <br>
+                <label for="mobile">Mobile:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="mobile" name="mobile">
+                <br>
+                <label for="email">Email:</label>
+                <input class="w3-input w3-border" type="email" id="emailvcard" name="email" autocomplete="email" required>
+                <br>
+                <label for="address">Address:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="address" name="address" autocomplete="address" required>
+                <br>
+                <label for="company">Company:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="company" name="company" autocomplete="company">
+                <br>
+                <label for="url">URL:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="urlvcard" name="url">
+                <br>
+                <label for="role">Role:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="role" name="role">
+                <br>
+                <label for="lang">Language:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="lang" name="lang">
+                <br>
+                <label for="geo">Geographical Position:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="geo" name="geo">
+                <br>
+                <label for="imageVCard">Image (optional):</label>
+                <input class="w3-input w3-border w3-round-large" type="file" id="imageVCard" name="image" accept="image/jpeg, image/png, image/bmp">
+                <br>
+                <label for="logoWidthPercentVCard">Logo Width Percent:</label>
+                <input class="w3-input w3-border w3-round-large w3-green" type="range" id="logoWidthPercentVCard" name="logoWidthPercent" min="0" max="1" step="0.01" value="0.25" oninput="updateLogoWidthValueVCard(this.value)">
+                <span id="logoWidthValueVCard" class="w3-tag w3-green" >25%</span>
+                <br>
+                <label for="sizeVCard">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizeVCard" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-green w3-round-large" type="submit">Generate vCard QR Code</button>
+            </form>
+            <img id="vcardQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+        <div id="wifiSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-purple center-content">
+            <h2 class="w3-section-title w3-purple w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/wifi_logo.webp" class="logo" alt="Wi-Fi Logo" style="margin-left: 20px;"> Generate Wi-Fi QR Code
+            </h2>
+            <form id="wifiQrForm">
+                <label for="ssid">SSID:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="ssid" name="ssid" required>
+                <br>
+                <label for="password">Password:</label>
+                <input class="w3-input w3-border w3-round-large" type="password" id="password" name="password" required>
+                <br>
+                <label for="security">Security Type:</label>
+                <select class="w3-select w3-border w3-round-large" id="security" name="security" required>
+                    <option value="WPA">WPA/WPA2</option>
+                    <option value="WEP">WEP</option>
+                    <option value="nopass">No Password</option>
+                </select>
+                <br>
+                <label for="sizeWiFi">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizeWiFi" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-purple w3-round-large" type="submit">Generate Wi-Fi QR Code</button>
+            </form>
+            <img id="wifiQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+        <div id="mapSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-orange center-content">
+            <h2 class="w3-section-title w3-orange w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/map_logo.webp" class="logo" alt="Map Logo" style="margin-left: 20px;"> Generate Map QR Code
+            </h2>
+            <form id="mapQrForm">
+                <label for="latitude">Latitude:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="latitude" name="latitude" required>
+                <br>
+                <label for="longitude">Longitude:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="longitude" name="longitude" required>
+                <br>
+                <label for="sizeMap">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizeMap" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-orange w3-round-large" type="submit">Generate Map QR Code</button>
+            </form>
+            <img id="mapQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+        <div id="eventSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-orange center-content">
+            <h2 class="w3-section-title w3-orange w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/event_logo.webp" class="logo" alt="Event Logo" style="margin-left: 20px;"> Generate Event QR Code
+            </h2>
+            <form id="eventQrForm">
+                <label for="eventName">Event Name:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="eventName" name="eventName" required>
+                <br>
+                <label for="startDateTime">Start Date and Time:</label>
+                <input class="w3-input w3-border" type="datetime-local" id="startDateTime" name="startDateTime" required>
+                <br>
+                <label for="endDateTime">End Date and Time:</label>
+                <input class="w3-input w3-border" type="datetime-local" id="endDateTime" name="endDateTime" required>
+                <br>
+                <label for="location">Location:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="location" name="location">
+                <br>
+                <label for="description">Description:</label>
+                <textarea class="w3-input w3-border" id="descriptionevent" name="description"></textarea>
+                <br>
+                <label for="size">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizeevent" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-orange w3-round-large" type="submit">Generate Event QR Code</button>
+            </form>
+            <img id="eventQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+        <div id="paypalSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-blue-dark center-content">
+            <h2 class="w3-section-title w3-blue w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/paypal_logo.webp" class="logo" alt="PayPal Logo" style="margin-left: 20px;"> Generate PayPal QR Code
+            </h2>
+            <form id="paypalQrForm">
+                <label for="email">PayPal Email:</label>
+                <input class="w3-input w3-border w3-round-large" type="email" id="emailpaypal" name="email" autocomplete="email" required>
+                <br>
+                <label for="amount">Amount (EUR,ecc):</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="amount" name="amount" autocomplete="amount" required>
+                <br>
+                <label for="currency">Currency:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="currency" name="currency" autocomplete="currency" required>
+                <br>
+                <label for="description">Description:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="descriptionpaypal" name="description">
+                <br>
+                <label for="size">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizepaypal" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-blue w3-round-large" type="submit">Generate PayPal QR Code</button>
+            </form>
+            <img id="paypalQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+        <div id="whatsappSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-green center-content">
+            <h2 class="w3-section-title w3-green w3-padding-16 w3-round-xxlarge">
+                <img src="/qrcode/static/whatsapp_logo.webp" class="logo" alt="WhatsApp Logo" style="margin-left: 20px;"> Generate WhatsApp Message QR Code
+            </h2>
+            <form id="whatsappQrForm">
+                <label for="phone">Phone Number:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="phonewhatsapp" name="phone" autocomplete="phone" required>
+                <br>
+                <label for="message">Message:</label>
+                <input class="w3-input w3-border w3-round-large" type="text" id="messagewhatsapp" name="message">
+                <br>
+                <label for="sizeWhatsApp">Size:</label>
+                <select class="w3-select w3-border w3-round-large" id="sizeWhatsApp" name="size" required>
+                    <option value="128">Small</option>
+                    <option value="256">Medium</option>
+                    <option value="512">Large</option>
+                    <option value="1024">Extra Large</option>
+                </select>
+                <br><br>
+                <button class="w3-button w3-green w3-round-large" type="submit">Generate WhatsApp QR Code</button>
+            </form>
+            <img id="whatsappQrCodeImage" class="qr-code-img w3-image" />
+        </div>
+
+<div id="emailSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-blue-dark center-content">
+    <h2 class="w3-section-title w3-cyan w3-padding-16 w3-round-xxlarge">
+        <img src="/qrcode/static/email_logo.webp" class="logo" alt="Email Logo" style="margin-left: 20px;"> Generate Email QR Code
+    </h2>
+    <form id="emailQrForm">
+        <label for="email">Email:</label>
+        <input class="w3-input w3-border w3-round-large" type="email" id="emailemail" name="email" autocomplete="email" required>
+        <br>
+        <label for="subject">Subject:</label>
+        <input class="w3-input w3-border w3-round-large" type="text" id="subject" name="subject">
+        <br>
+        <label for="body">Body:</label>
+        <textarea class="w3-input w3-border w3-round-large" id="body" name="body"></textarea>
+        <br>
+        <label for="sizeEmail">Size:</label>
+        <select class="w3-select w3-border w3-round-large" id="sizeEmail" name="size" required>
+            <option value="128">Small</option>
+            <option value="256">Medium</option>
+            <option value="512">Large</option>
+            <option value="1024">Extra Large</option>
+        </select>
+        <br><br>
+        <button class="w3-button w3-cyan w3-round-large" type="submit">Generate Email QR Code</button>
+    </form>
+    <img id="emailQrCodeImage" class="qr-code-img w3-image" />
+</div>
+<div id="smsSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-yellow center-content">
+    <h2 class="w3-section-title w3-amber w3-padding-16 w3-round-xxlarge">
+        <img src="/qrcode/static/sms_logo.webp" class="logo" alt="SMS Logo" style="margin-left: 20px;"> Generate SMS QR Code
+    </h2>
+    <form id="smsQrForm">
+        <label for="phoneNumber">Phone Number:</label>
+        <input class="w3-input w3-border w3-round-large" type="text" id="phoneNumbersms" name="phoneNumber" required>
+        <br>
+        <label for="message">Message:</label>
+        <textarea class="w3-input w3-border w3-round-large" id="messagesms" name="message"></textarea>
+        <br>
+        <label for="sizeSMS">Size:</label>
+        <select class="w3-select w3-border w3-round-large" id="sizeSMS" name="size" required>
+            <option value="128">Small</option>
+            <option value="256">Medium</option>
+            <option value="512">Large</option>
+            <option value="1024">Extra Large</option>
+        </select>
+        <br><br>
+        <button class="w3-button w3-amber w3-round-large" type="submit">Generate SMS QR Code</button>
+    </form>
+    <img id="smsQrCodeImage" class="qr-code-img w3-image" />
+</div>
+<div id="phoneSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-pink center-content">
+    <h2 class="w3-section-title w3-pale-red w3-padding-16 w3-round-xxlarge">
+        <img src="/qrcode/static/phone_logo.webp" class="logo" alt="Phone Logo" style="margin-left: 20px;"> Generate Phone Call QR Code
+    </h2>
+    <form id="phoneQrForm">
+        <label for="phoneNumber">Phone Number:</label>
+        <input class="w3-input w3-border w3-round-large" type="text" id="phoneNumberphone" name="phoneNumber" required>
+        <br>
+        <label for="sizePhone">Size:</label>
+        <select class="w3-select w3-border w3-round-large" id="sizePhone" name="size" required>
+            <option value="128">Small</option>
+            <option value="256">Medium</option>
+            <option value="512">Large</option>
+            <option value="1024">Extra Large</option>
+        </select>
+        <br><br>
+        <button class="w3-button w3-pale-red w3-round-large" type="submit">Generate Phone Call QR Code</button>
+    </form>
+    <img id="phoneQrCodeImage" class="qr-code-img w3-image" />
+</div>
+<div id="spotifySection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-green center-content">
+    <h2 class="w3-section-title w3-green w3-padding-16 w3-round-xxlarge">
+        <img src="/qrcode/static/spotify_logo.webp" class="logo" alt="Spotify Logo" style="margin-left: 20px;"> Generate Spotify QR Code
+    </h2>
+    <form id="spotifyQrForm">
+        <label for="spotifyURL">Spotify URL:</label>
+        <input class="w3-input w3-border w3-round-large" type="text" id="spotifyURL" name="spotifyURL" required>
+        <br>
+        <label for="sizeSpotify">Size:</label>
+        <select class="w3-select w3-border w3-round-large" id="sizeSpotify" name="size" required>
+            <option value="128">Small</option>
+            <option value="256">Medium</option>
+            <option value="512">Large</option>
+            <option value="1024">Extra Large</option>
+        </select>
+        <br><br>
+        <button class="w3-button w3-green w3-round-large" type="submit">Generate Spotify QR Code</button>
+    </form>
+    <img id="spotifyQrCodeImage" class="qr-code-img w3-image" />
+</div>
+<div id="telegramSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-aqua center-content">
+    <h2 class="w3-section-title w3-aqua w3-padding-16 w3-round-xxlarge">
+        <img src="/qrcode/static/telegram_logo.webp" class="logo" alt="Telegram Logo" style="margin-left: 20px;"> Generate Telegram QR Code
+    </h2>
+    <form id="telegramQrForm">
+        <label for="telegramName">Telegram Username or Group Name:</label>
+        <input class="w3-input w3-border w3-round-large" type="text" id="telegramName" name="telegramName" required>
+        <br>
+        <label for="sizeTelegram">Size:</label>
+        <select class="w3-select w3-border w3-round-large" id="sizeTelegram" name="size" required>
+            <option value="128">Small</option>
+            <option value="256">Medium</option>
+            <option value="512">Large</option>
+            <option value="1024">Extra Large</option>
+        </select>
+        <br><br>
+        <button class="w3-button w3-aqua w3-round-large" type="submit">Generate Telegram QR Code</button>
+    </form>
+    <img id="telegramQrCodeImage" class="qr-code-img w3-image" />
+</div>
+<div id="zoomSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-gray center-content">
+    <h2 class="w3-section-title w3-grey w3-padding-16 w3-round-xxlarge">
+        <img src="/qrcode/static/zoom_logo.webp" class="logo" alt="Zoom Logo" style="margin-left: 20px;"> Generate Zoom QR Code
+    </h2>
+    <form id="zoomQrForm">
+        <label for="meetingID">Meeting ID:</label>
+        <input class="w3-input w3-border w3-round-large" type="text" id="meetingID" name="meetingID" required>
+        <br>
+        <label for="password">Password:</label>
+        <input class="w3-input w3-border w3-round-large" type="text" id="password" name="password">
+        <br>
+        <label for="sizeZoom">Size:</label>
+        <select class="w3-select w3-border w3-round-large" id="sizeZoom" name="size" required>
+            <option value="128">Small</option>
+            <option value="256">Medium</option>
+            <option value="512">Large</option>
+            <option value="1024">Extra Large</option>
+        </select>
+        <br><br>
+        <button class="w3-button w3-grey w3-round-large" type="submit">Generate Zoom QR Code</button>
+    </form>
+    <img id="zoomQrCodeImage" class="qr-code-img w3-image" />
+</div>
+
+
+
+    </div>
+
+    <script>
+        function toggleSection(sectionId) {
+            var section = document.getElementById(sectionId);
+            var sections = document.querySelectorAll('.w3-section');
+                        var sidebar = document.querySelector('.w3-sidebar');
+            var anySectionVisible = false;
+
+            sections.forEach(function(sec) {
+                if (sec.id !== sectionId) {
+                    sec.classList.add('w3-hide');
+                } else if (!sec.classList.contains('w3-hide')) {
+                    anySectionVisible = true;
+                }
+            });
+
+            if (!anySectionVisible && sectionId !== 'defaultSection') {
+                section.classList.toggle('w3-hide');
+            }
+
+            var defaultSection = document.getElementById('defaultSection');
+            if (defaultSection && sections.length > 1) {
+                defaultSection.classList.add('w3-hide');
+            }
+
+            if (section.classList.contains('w3-hide') && sectionId === 'defaultSection') {
+                defaultSection.classList.remove('w3-hide');
+            }
+
+            if (sectionId !== 'defaultSection') {
+                sidebar.classList.add('collapsed');
+            }
+        }
+
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.w3-sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        async function generateQrCode(event, formId, imgId, url) {
+            event.preventDefault();
+            const formData = new FormData(document.getElementById(formId));
+
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const img = document.getElementById(imgId);
+                img.src = URL.createObjectURL(blob);
+                img.style.display = 'block';
+            } else {
+                alert('Failed to generate QR code');
+            }
+        }
+        function updateLogoWidthValueVCard(value) {
+            document.getElementById('logoWidthValueVCard').textContent = Math.round(value * 100) + '%';
+        }
+        function updateLogoWidthValue(value) {
+            document.getElementById('logoWidthValue').textContent = Math.round(value * 100) + '%';
+        }
+
+        document.getElementById('qrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'qrForm', 'customUrlQrCodeImage', '/qrcode/generate');
+        });
+
+        document.getElementById('instagramQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'instagramQrForm', 'instagramQrCodeImage', '/qrcode/generate_instagram');
+        });
+
+        document.getElementById('facebookQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'facebookQrForm', 'facebookQrCodeImage', '/qrcode/generate_facebook');
+        });
+
+        document.getElementById('tiktokQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'tiktokQrForm', 'tiktokQrCodeImage', '/qrcode/generate_tiktok');
+        });
+
+        document.getElementById('linkedinQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'linkedinQrForm', 'linkedinQrCodeImage', '/qrcode/generate_linkedin');
+        });
+
+        document.getElementById('youtubeQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'youtubeQrForm', 'youtubeQrCodeImage', '/qrcode/generate_youtube');
+        });
+
+        document.getElementById('wifiQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'wifiQrForm', 'wifiQrCodeImage', '/qrcode/generate_wifi');
+        });
+
+        document.getElementById('vcardQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'vcardQrForm', 'vcardQrCodeImage', '/qrcode/generate_vcard');
+        });
+
+        document.getElementById('mapQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'mapQrForm', 'mapQrCodeImage', '/qrcode/generate_map');
+        });
+
+        document.getElementById('eventQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'eventQrForm', 'eventQrCodeImage', '/qrcode/generate_event');
+        });
+
+        document.getElementById('paypalQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'paypalQrForm', 'paypalQrCodeImage', '/qrcode/generate_paypal');
+        });
+
+        document.getElementById('whatsappQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'whatsappQrForm', 'whatsappQrCodeImage', '/qrcode/generate_whatsapp');
+        });
+
+        document.getElementById('xQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'xQrForm', 'xQrCodeImage', '/qrcode/generate_x');
+        });
+
+        document.getElementById('emailQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'emailQrForm', 'emailQrCodeImage', '/qrcode/generate_email');
+        });
+
+        document.getElementById('smsQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'smsQrForm', 'smsQrCodeImage', '/qrcode/generate_sms');
+        });
+
+        document.getElementById('phoneQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'phoneQrForm', 'phoneQrCodeImage', '/qrcode/generate_phone');
+        });
+
+        document.getElementById('spotifyQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'spotifyQrForm', 'spotifyQrCodeImage', '/qrcode/generate_spotify');
+        });
+        document.getElementById('telegramQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'telegramQrForm', 'telegramQrCodeImage', '/qrcode/generate_telegram');
+        });
+        document.getElementById('zoomQrForm').addEventListener('submit', function(event) {
+            generateQrCode(event, 'zoomQrForm', 'zoomQrCodeImage', '/qrcode/generate_zoom');
+        });
+        // Show the default section initially
+        toggleSection('defaultSection');
+
+    </script>
+</body>
+</html>

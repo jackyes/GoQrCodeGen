@@ -11,6 +11,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 
@@ -158,7 +159,7 @@ func generateMapQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open the map logo image file
 	mapLogoFile, err := http.Dir(".").Open(MapLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open map logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open map logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateMapQRCodeHandler: Failed to open map logo - %v", err)
 		return
 	}
@@ -271,7 +272,7 @@ func generateWiFiQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Generate the QR code for the Wi-Fi network information string with the requested size
 	wifiLogoFile, err := http.Dir(".").Open(WiFiLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open Wi-Fi logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open Wi-Fi logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateWiFiQRCodeHandler: Failed to open Wi-Fi logo - %v", err)
 		return
 	}
@@ -352,7 +353,7 @@ func generateLinkedInQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open the LinkedIn logo image file
 	linkedinLogoFile, err := http.Dir(".").Open(LinkedInLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open LinkedIn logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open LinkedIn logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateLinkedInQRCodeHandler: Failed to open LinkedIn logo - %v", err)
 		return
 	}
@@ -430,7 +431,7 @@ func generateYouTubeQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open the YouTube logo image file
 	youtubeLogoFile, err := http.Dir(".").Open(YouTubeLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open YouTube logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open YouTube logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateYouTubeQRCodeHandler: Failed to open YouTube logo - %v", err)
 		return
 	}
@@ -607,7 +608,7 @@ func generateFacebookQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open the Facebook logo image file
 	facebookLogoFile, err := http.Dir(".").Open(FacebookLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open Facebook logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open Facebook logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateFacebookQRCodeHandler: Failed to open Facebook logo - %v", err)
 		return
 	}
@@ -689,7 +690,7 @@ func generateTikTokQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open the TikTok logo image file
 	tiktokLogoFile, err := http.Dir(".").Open(TikTokLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open TikTok logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open TikTok logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateTikTokQRCodeHandler: Failed to open TikTok logo - %v", err)
 		return
 	}
@@ -769,7 +770,7 @@ func generateInstagramQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open the Instagram logo image file
 	instagramLogoFile, err := http.Dir(".").Open(InstagramLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open Instagram logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open Instagram logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateInstagramQRCodeHandler: Failed to open Instagram logo - %v", err)
 		return
 	}
@@ -944,6 +945,9 @@ func decodeImage(file io.Reader) (image.Image, error) {
 	case "png":
 		// Decode PNG images using the png package.
 		img, err = png.Decode(bytes.NewReader(imgData))
+	default:
+		// Handle unsupported image formats
+		return nil, fmt.Errorf("unsupported image format: %s", format)
 	}
 
 	if err != nil {
@@ -1096,7 +1100,7 @@ func generateEventQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open event logo file
 	eventLogoFile, err := http.Dir(".").Open(EventLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open event logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open event logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateEventQRCodeHandler: Failed to open event logo - %v", err)
 		return
 	}
@@ -1179,7 +1183,7 @@ func generatePayPalQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open PayPal logo file
 	paypalLogoFile, err := http.Dir(".").Open(PayPalLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open PayPal logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open PayPal logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generatePayPalQRCodeHandler: Failed to open PayPal logo - %v", err)
 		return
 	}
@@ -1260,7 +1264,7 @@ func generateWhatsAppQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open WhatsApp logo file
 	whatsappLogoFile, err := http.Dir(".").Open(WhatsAppLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open WhatsApp logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open WhatsApp logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateWhatsAppQRCodeHandler: Failed to open WhatsApp logo - %v", err)
 		return
 	}
@@ -1339,7 +1343,7 @@ func generateXQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open platform logo file
 	xLogoFile, err := http.Dir(".").Open(XLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open X logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open X logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateXQRCodeHandler: Failed to open X logo - %v", err)
 		return
 	}
@@ -1407,7 +1411,7 @@ func generateEmailQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Generatemailto URL with email address, subject, and body
-	mailtoURL := fmt.Sprintf("mailto:%s?subject=%s&body=%s", email, subject, body)
+	mailtoURL := fmt.Sprintf("mailto:%s?subject=%s&body=%s", email, url.QueryEscape(subject), url.QueryEscape(body))
 
 	// Generate QR code from mailto URL
 	qrCode, err := generateQRCode(mailtoURL, size)
@@ -1420,7 +1424,7 @@ func generateEmailQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open email logo file
 	emailLogoFile, err := http.Dir(".").Open(EmailLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open email logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open email logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateEmailQRCodeHandler: Failed to open email logo - %v", err)
 		return
 	}
@@ -1500,7 +1504,7 @@ func generateSMSQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open SMS logo file
 	smsLogoFile, err := http.Dir(".").Open(SMSLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open SMS logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open SMS logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateSMSQRCodeHandler: Failed to open SMS logo - %v", err)
 		return
 	}
@@ -1579,7 +1583,7 @@ func generatePhoneQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open phone logo file
 	phoneLogoFile, err := http.Dir(".").Open(PhoneLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open phone logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open phone logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generatePhoneQRCodeHandler: Failed to open phone logo - %v", err)
 		return
 	}
@@ -1655,7 +1659,7 @@ func generateSpotifyQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open Spotify logo file
 	spotifyLogoFile, err := http.Dir(".").Open(SpotifyLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open Spotify logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open Spotify logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateSpotifyQRCodeHandler: Failed to open Spotify logo - %v", err)
 		return
 	}
@@ -1734,7 +1738,7 @@ func generateTelegramQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open Telegram logo file
 	telegramLogoFile, err := http.Dir(".").Open(TelegramLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open Telegram logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open Telegram logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateTelegramQRCodeHandler: Failed to open Telegram logo - %v", err)
 		return
 	}
@@ -1814,7 +1818,7 @@ func generateZoomQRCodeHandler(w http.ResponseWriter, r *http.Request) {
 	// Open Zoom logo file
 	zoomLogoFile, err := http.Dir(".").Open(ZoomLogoPath)
 	if err != nil {
-		http.Error(w, "Failed to open Zoom logo", http.StatusInternalServerError)
+		http.Error(w, "Failed to open Zoom logo: file not found or cannot be opened", http.StatusInternalServerError)
 		log.Printf("generateZoomQRCodeHandler: Failed to open Zoom logo - %v", err)
 		return
 	}

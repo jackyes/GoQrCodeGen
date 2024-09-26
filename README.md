@@ -10,6 +10,11 @@ Welcome to GoQrCodeGen, a powerful and user-friendly QR code generator built wit
 - **High-Quality Output**: Generate high-quality PNG images for easy sharing and scanning.
 - **User-Friendly Interface**: A simple and intuitive web interface for generating QR codes.
 
+| Screenshot |
+| --- |
+| ![Custom QR Code](Screenshot/CustomQr.jpg) | 
+| ![Zoom QR Code](Screenshot/ZoomQr.jpg) | 
+
 ## Getting Started
 
 ### Installation

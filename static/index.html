@@ -6,11 +6,11 @@
     <meta name="HandheldFriendly" content="true"/> 
     <meta name="description" content="Generate customized QR codes for URLs, social media profiles, Wi-Fi access, events, and more with our easy-to-use QR Code Generator. Perfect for personal and business use, create QR codes in various sizes with optional images and additional data.">
     <title>QR Code Generator</title>
-    <link rel="preload" href="/qrcode/static/w3.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/static/w3.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link rel="stylesheet" href="/qrcode/static/w3.css">
+        <link rel="stylesheet" href="/static/w3.css">
     </noscript>
-    <link rel="icon" href="/qrcode/static/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <style>
         :root {
             --sidebar-width: 200px;
@@ -192,100 +192,100 @@
         <button class="expand-button" onclick="toggleSidebar()">Expand</button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('customUrlSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/custom_url_logo.webp" class="logo" alt="Custom URL Logo">
+                <img src="/static/custom_url_logo.webp" class="logo" alt="Custom URL Logo">
                 <span>Custom URL/Text</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('instagramSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/instagram_logo.webp" class="logo" alt="Instagram Logo">
+                <img src="/static/instagram_logo.webp" class="logo" alt="Instagram Logo">
                 <span>Instagram</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('facebookSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/facebook_logo.webp" class="logo" alt="Facebook Logo">
+                <img src="/static/facebook_logo.webp" class="logo" alt="Facebook Logo">
                 <span>Facebook</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('tiktokSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/tiktok_logo.webp" class="logo" alt="TikTok Logo">
+                <img src="/static/tiktok_logo.webp" class="logo" alt="TikTok Logo">
                 <span>TikTok</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('xSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/x_logo.webp" class="logo" alt="X Logo">
+                <img src="/static/x_logo.webp" class="logo" alt="X Logo">
                 <span>X / Twitter</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('linkedinSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/linkedin_logo.webp" class="logo" alt="LinkedIn Logo">
+                <img src="/static/linkedin_logo.webp" class="logo" alt="LinkedIn Logo">
                 <span>LinkedIn</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('youtubeSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/youtube_logo.webp" class="logo" alt="YouTube Logo">
+                <img src="/static/youtube_logo.webp" class="logo" alt="YouTube Logo">
                 <span>YouTube</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('vcardSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/vcard_logo.webp" class="logo" alt="vCard Logo">
+                <img src="/static/vcard_logo.webp" class="logo" alt="vCard Logo">
                 <span>vCard</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('wifiSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/wifi_logo.webp" class="logo" alt="Wi-Fi Logo" loading="lazy">
+                <img src="/static/wifi_logo.webp" class="logo" alt="Wi-Fi Logo">
                 <span>Wi-Fi</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('mapSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/map_logo.webp" class="logo" alt="Map Logo" loading="lazy">
+                <img src="/static/map_logo.webp" class="logo" alt="Map Logo">
                 <span>Map</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('eventSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/event_logo.webp" class="logo" alt="Event Logo" loading="lazy">
+                <img src="/static/event_logo.webp" class="logo" alt="Event Logo">
                 <span>Event</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('paypalSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/paypal_logo.webp" class="logo" alt="PayPal Logo" loading="lazy">
+                <img src="/static/paypal_logo.webp" class="logo" alt="PayPal Logo">
                 <span>PayPal</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('whatsappSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/whatsapp_logo.webp" class="logo" alt="WhatsApp Logo" loading="lazy">
+                <img src="/static/whatsapp_logo.webp" class="logo" alt="WhatsApp Logo">
                 <span>WhatsApp Message</span>
             </div>
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('emailSection')">
-            <img src="/qrcode/static/email_logo.webp" class="logo" alt="Email Logo" loading="lazy"> Email
+            <img src="/static/email_logo.webp" class="logo" alt="Email Logo"> Email
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('smsSection')">
-            <img src="/qrcode/static/sms_logo.webp" class="logo" alt="SMS Logo" loading="lazy"> SMS
+            <img src="/static/sms_logo.webp" class="logo" alt="SMS Logo"> SMS
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('phoneSection')">
-            <img src="/qrcode/static/phone_logo.webp" class="logo" alt="Phone Logo" loading="lazy"> Phone
+            <img src="/static/phone_logo.webp" class="logo" alt="Phone Logo"> Phone
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('spotifySection')">
-            <img src="/qrcode/static/spotify_logo.webp" class="logo" alt="Spotify Logo" loading="lazy"> Spotify
+            <img src="/static/spotify_logo.webp" class="logo" alt="Spotify Logo"> Spotify
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('telegramSection')">
-            <img src="/qrcode/static/telegram_logo.webp" class="logo" alt="Telegram Logo" loading="lazy"> Telegram
+            <img src="/static/telegram_logo.webp" class="logo" alt="Telegram Logo"> Telegram
         </button>
         <button class="w3-bar-item w3-button menu-button" onclick="toggleSection('zoomSection')">
             <div class="menu-item">
-                <img src="/qrcode/static/zoom_logo.webp" class="logo" alt="Zoom Logo">
+                <img src="/static/zoom_logo.webp" class="logo" alt="Zoom Logo">
                 <span>Zoom</span>
             </div>
         </button>
@@ -302,7 +302,7 @@
 
         <div id="customUrlSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-teal center-content">
             <h2 class="w3-section-title w3-teal w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/custom_url_logo.webp" class="logo" alt="Custom URL Logo" style="margin-left: 20px;"> Generate QR Code with Custom URL or Text
+                <img src="/static/custom_url_logo.webp" class="logo" alt="Custom URL Logo" style="margin-left: 20px;"> Generate QR Code with Custom URL or Text
             </h2>
             <form id="qrForm">
                 <label for="url">URL/Text:</label>
@@ -330,7 +330,7 @@
 
         <div id="instagramSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-blue-dark center-content">
             <h2 class="w3-section-title w3-blue w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/instagram_logo.webp" class="logo" alt="Instagram Logo" style="margin-left: 20px;"> Generate Instagram QR Code
+                <img src="/static/instagram_logo.webp" class="logo" alt="Instagram Logo" style="margin-left: 20px;"> Generate Instagram QR Code
             </h2>
             <form id="instagramQrForm">
                 <label for="username">Instagram Username:</label>
@@ -351,7 +351,7 @@
 
         <div id="facebookSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-indigo center-content">
             <h2 class="w3-section-title w3-indigo w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/facebook_logo.webp" class="logo" alt="Facebook Logo"  style="margin-left: 20px;"> Generate Facebook QR Code
+                <img src="/static/facebook_logo.webp" class="logo" alt="Facebook Logo"  style="margin-left: 20px;"> Generate Facebook QR Code
             </h2>
             <form id="facebookQrForm">
                 <label for="usernameFacebook">Facebook Username:</label>
@@ -372,7 +372,7 @@
 
         <div id="tiktokSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-black center-content">
             <h2 class="w3-section-title w3-black w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/tiktok_logo.webp" class="logo" alt="TikTok Logo"  style="margin-left: 20px;"> Generate TikTok QR Code
+                <img src="/static/tiktok_logo.webp" class="logo" alt="TikTok Logo"  style="margin-left: 20px;"> Generate TikTok QR Code
             </h2>
             <form id="tiktokQrForm">
                 <label for="usernameTikTok">TikTok Username:</label>
@@ -393,7 +393,7 @@
 
         <div id="xSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-gray center-content">
             <h2 class="w3-section-title w3-grey w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/x_logo.webp" class="logo" alt="X Logo" style="margin-left: 20px;"> Generate X / Twitter QR Code
+                <img src="/static/x_logo.webp" class="logo" alt="X Logo" style="margin-left: 20px;"> Generate X / Twitter QR Code
             </h2>
             <form id="xQrForm">
                 <label for="usernameX">Username:</label>
@@ -414,7 +414,7 @@
 
         <div id="linkedinSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-blue-dark center-content">
             <h2 class="w3-section-title w3-blue w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/linkedin_logo.webp" class="logo" alt="LinkedIn Logo"  style="margin-left: 20px;"> Generate LinkedIn QR Code
+                <img src="/static/linkedin_logo.webp" class="logo" alt="LinkedIn Logo"  style="margin-left: 20px;"> Generate LinkedIn QR Code
             </h2>
             <form id="linkedinQrForm">
                 <label for="usernameLinkedIn">LinkedIn Username:</label>
@@ -435,7 +435,7 @@
 
         <div id="youtubeSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-red center-content">
             <h2 class="w3-section-title w3-red w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/youtube_logo.webp" class="logo" alt="YouTube Logo"  style="margin-left: 20px;"> Generate YouTube QR Code
+                <img src="/static/youtube_logo.webp" class="logo" alt="YouTube Logo"  style="margin-left: 20px;"> Generate YouTube QR Code
             </h2>
             <form id="youtubeQrForm">
                 <label for="channelYouTube">YouTube Channel ID:</label>
@@ -456,7 +456,7 @@
 
         <div id="vcardSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-green center-content">
             <h2 class="w3-section-title w3-green w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/vcard_logo.webp" class="logo" alt="vCard Logo"  style="margin-left: 20px;"> Generate vCard QR Code
+                <img src="/static/vcard_logo.webp" class="logo" alt="vCard Logo"  style="margin-left: 20px;"> Generate vCard QR Code
             </h2>
             <form id="vcardQrForm" enctype="multipart/form-data">
                 <label for="firstName">First Name:</label>
@@ -517,7 +517,7 @@
 
         <div id="wifiSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-purple center-content">
             <h2 class="w3-section-title w3-purple w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/wifi_logo.webp" class="logo" alt="Wi-Fi Logo" style="margin-left: 20px;"> Generate Wi-Fi QR Code
+                <img src="/static/wifi_logo.webp" class="logo" alt="Wi-Fi Logo" style="margin-left: 20px;"> Generate Wi-Fi QR Code
             </h2>
             <form id="wifiQrForm">
                 <label for="ssid">SSID:</label>
@@ -548,7 +548,7 @@
 
         <div id="mapSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-orange center-content">
             <h2 class="w3-section-title w3-orange w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/map_logo.webp" class="logo" alt="Map Logo" style="margin-left: 20px;"> Generate Map QR Code
+                <img src="/static/map_logo.webp" class="logo" alt="Map Logo" style="margin-left: 20px;"> Generate Map QR Code
             </h2>
             <form id="mapQrForm">
                 <label for="latitude">Latitude:</label>
@@ -572,7 +572,7 @@
 
         <div id="eventSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-orange center-content">
             <h2 class="w3-section-title w3-orange w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/event_logo.webp" class="logo" alt="Event Logo" style="margin-left: 20px;"> Generate Event QR Code
+                <img src="/static/event_logo.webp" class="logo" alt="Event Logo" style="margin-left: 20px;"> Generate Event QR Code
             </h2>
             <form id="eventQrForm">
                 <label for="eventName">Event Name:</label>
@@ -605,7 +605,7 @@
 
         <div id="paypalSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-blue-dark center-content">
             <h2 class="w3-section-title w3-blue w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/paypal_logo.webp" class="logo" alt="PayPal Logo" style="margin-left: 20px;"> Generate PayPal QR Code
+                <img src="/static/paypal_logo.webp" class="logo" alt="PayPal Logo" style="margin-left: 20px;"> Generate PayPal QR Code
             </h2>
             <form id="paypalQrForm">
                 <label for="email">PayPal Email:</label>
@@ -635,7 +635,7 @@
 
         <div id="whatsappSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-green center-content">
             <h2 class="w3-section-title w3-green w3-padding-16 w3-round-xxlarge">
-                <img src="/qrcode/static/whatsapp_logo.webp" class="logo" alt="WhatsApp Logo" style="margin-left: 20px;"> Generate WhatsApp Message QR Code
+                <img src="/static/whatsapp_logo.webp" class="logo" alt="WhatsApp Logo" style="margin-left: 20px;"> Generate WhatsApp Message QR Code
             </h2>
             <form id="whatsappQrForm">
                 <label for="phone">Phone Number:</label>
@@ -659,7 +659,7 @@
 
 <div id="emailSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-blue-dark center-content">
     <h2 class="w3-section-title w3-cyan w3-padding-16 w3-round-xxlarge">
-        <img src="/qrcode/static/email_logo.webp" class="logo" alt="Email Logo" style="margin-left: 20px;"> Generate Email QR Code
+        <img src="/static/email_logo.webp" class="logo" alt="Email Logo" style="margin-left: 20px;"> Generate Email QR Code
     </h2>
     <form id="emailQrForm">
         <label for="email">Email:</label>
@@ -685,7 +685,7 @@
 </div>
 <div id="smsSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-yellow center-content">
     <h2 class="w3-section-title w3-amber w3-padding-16 w3-round-xxlarge">
-        <img src="/qrcode/static/sms_logo.webp" class="logo" alt="SMS Logo" style="margin-left: 20px;"> Generate SMS QR Code
+        <img src="/static/sms_logo.webp" class="logo" alt="SMS Logo" style="margin-left: 20px;"> Generate SMS QR Code
     </h2>
     <form id="smsQrForm">
         <label for="phoneNumber">Phone Number:</label>
@@ -708,7 +708,7 @@
 </div>
 <div id="phoneSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-pink center-content">
     <h2 class="w3-section-title w3-pale-red w3-padding-16 w3-round-xxlarge">
-        <img src="/qrcode/static/phone_logo.webp" class="logo" alt="Phone Logo" style="margin-left: 20px;"> Generate Phone Call QR Code
+        <img src="/static/phone_logo.webp" class="logo" alt="Phone Logo" style="margin-left: 20px;"> Generate Phone Call QR Code
     </h2>
     <form id="phoneQrForm">
         <label for="phoneNumber">Phone Number:</label>
@@ -728,7 +728,7 @@
 </div>
 <div id="spotifySection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-green center-content">
     <h2 class="w3-section-title w3-green w3-padding-16 w3-round-xxlarge">
-        <img src="/qrcode/static/spotify_logo.webp" class="logo" alt="Spotify Logo" style="margin-left: 20px;"> Generate Spotify QR Code
+        <img src="/static/spotify_logo.webp" class="logo" alt="Spotify Logo" style="margin-left: 20px;"> Generate Spotify QR Code
     </h2>
     <form id="spotifyQrForm">
         <label for="spotifyURL">Spotify URL:</label>
@@ -748,7 +748,7 @@
 </div>
 <div id="telegramSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-aqua center-content">
     <h2 class="w3-section-title w3-aqua w3-padding-16 w3-round-xxlarge">
-        <img src="/qrcode/static/telegram_logo.webp" class="logo" alt="Telegram Logo" style="margin-left: 20px;"> Generate Telegram QR Code
+        <img src="/static/telegram_logo.webp" class="logo" alt="Telegram Logo" style="margin-left: 20px;"> Generate Telegram QR Code
     </h2>
     <form id="telegramQrForm">
         <label for="telegramName">Telegram Username or Group Name:</label>
@@ -768,7 +768,7 @@
 </div>
 <div id="zoomSection" class="w3-section w3-hide w3-container w3-card-4 w3-white w3-margin-bottom light-gray center-content">
     <h2 class="w3-section-title w3-grey w3-padding-16 w3-round-xxlarge">
-        <img src="/qrcode/static/zoom_logo.webp" class="logo" alt="Zoom Logo" style="margin-left: 20px;"> Generate Zoom QR Code
+        <img src="/static/zoom_logo.webp" class="logo" alt="Zoom Logo" style="margin-left: 20px;"> Generate Zoom QR Code
     </h2>
     <form id="zoomQrForm">
         <label for="meetingID">Meeting ID:</label>
@@ -847,7 +847,8 @@
                 img.src = URL.createObjectURL(blob);
                 img.style.display = 'block';
             } else {
-                alert('Failed to generate QR code');
+                const text = await response.text();
+                alert('Failed to generate QR code: ' + text);
             }
         }
         function updateLogoWidthValueVCard(value) {
@@ -858,77 +859,77 @@
         }
 
         document.getElementById('qrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'qrForm', 'customUrlQrCodeImage', '/qrcode/generate');
+            generateQrCode(event, 'qrForm', 'customUrlQrCodeImage', '/generate');
         });
 
         document.getElementById('instagramQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'instagramQrForm', 'instagramQrCodeImage', '/qrcode/generate_instagram');
+            generateQrCode(event, 'instagramQrForm', 'instagramQrCodeImage', '/generate_instagram');
         });
 
         document.getElementById('facebookQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'facebookQrForm', 'facebookQrCodeImage', '/qrcode/generate_facebook');
+            generateQrCode(event, 'facebookQrForm', 'facebookQrCodeImage', '/generate_facebook');
         });
 
         document.getElementById('tiktokQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'tiktokQrForm', 'tiktokQrCodeImage', '/qrcode/generate_tiktok');
+            generateQrCode(event, 'tiktokQrForm', 'tiktokQrCodeImage', '/generate_tiktok');
         });
 
         document.getElementById('linkedinQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'linkedinQrForm', 'linkedinQrCodeImage', '/qrcode/generate_linkedin');
+            generateQrCode(event, 'linkedinQrForm', 'linkedinQrCodeImage', '/generate_linkedin');
         });
 
         document.getElementById('youtubeQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'youtubeQrForm', 'youtubeQrCodeImage', '/qrcode/generate_youtube');
+            generateQrCode(event, 'youtubeQrForm', 'youtubeQrCodeImage', '/generate_youtube');
         });
 
         document.getElementById('wifiQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'wifiQrForm', 'wifiQrCodeImage', '/qrcode/generate_wifi');
+            generateQrCode(event, 'wifiQrForm', 'wifiQrCodeImage', '/generate_wifi');
         });
 
         document.getElementById('vcardQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'vcardQrForm', 'vcardQrCodeImage', '/qrcode/generate_vcard');
+            generateQrCode(event, 'vcardQrForm', 'vcardQrCodeImage', '/generate_vcard');
         });
 
         document.getElementById('mapQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'mapQrForm', 'mapQrCodeImage', '/qrcode/generate_map');
+            generateQrCode(event, 'mapQrForm', 'mapQrCodeImage', '/generate_map');
         });
 
         document.getElementById('eventQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'eventQrForm', 'eventQrCodeImage', '/qrcode/generate_event');
+            generateQrCode(event, 'eventQrForm', 'eventQrCodeImage', '/generate_event');
         });
 
         document.getElementById('paypalQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'paypalQrForm', 'paypalQrCodeImage', '/qrcode/generate_paypal');
+            generateQrCode(event, 'paypalQrForm', 'paypalQrCodeImage', '/generate_paypal');
         });
 
         document.getElementById('whatsappQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'whatsappQrForm', 'whatsappQrCodeImage', '/qrcode/generate_whatsapp');
+            generateQrCode(event, 'whatsappQrForm', 'whatsappQrCodeImage', '/generate_whatsapp');
         });
 
         document.getElementById('xQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'xQrForm', 'xQrCodeImage', '/qrcode/generate_x');
+            generateQrCode(event, 'xQrForm', 'xQrCodeImage', '/generate_x');
         });
 
         document.getElementById('emailQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'emailQrForm', 'emailQrCodeImage', '/qrcode/generate_email');
+            generateQrCode(event, 'emailQrForm', 'emailQrCodeImage', '/generate_email');
         });
 
         document.getElementById('smsQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'smsQrForm', 'smsQrCodeImage', '/qrcode/generate_sms');
+            generateQrCode(event, 'smsQrForm', 'smsQrCodeImage', '/generate_sms');
         });
 
         document.getElementById('phoneQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'phoneQrForm', 'phoneQrCodeImage', '/qrcode/generate_phone');
+            generateQrCode(event, 'phoneQrForm', 'phoneQrCodeImage', '/generate_phone');
         });
 
         document.getElementById('spotifyQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'spotifyQrForm', 'spotifyQrCodeImage', '/qrcode/generate_spotify');
+            generateQrCode(event, 'spotifyQrForm', 'spotifyQrCodeImage', '/generate_spotify');
         });
         document.getElementById('telegramQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'telegramQrForm', 'telegramQrCodeImage', '/qrcode/generate_telegram');
+            generateQrCode(event, 'telegramQrForm', 'telegramQrCodeImage', '/generate_telegram');
         });
         document.getElementById('zoomQrForm').addEventListener('submit', function(event) {
-            generateQrCode(event, 'zoomQrForm', 'zoomQrCodeImage', '/qrcode/generate_zoom');
+            generateQrCode(event, 'zoomQrForm', 'zoomQrCodeImage', '/generate_zoom');
         });
         // Show the default section initially
         toggleSection('defaultSection');
